@@ -37,8 +37,24 @@ d3.csv("assets/data/data.csv")
         var xAxis = d3.axisBottom(xLinearScale);
         var yAxis = d3.axisLeft(yLinearScale);
 
+        svg.append("g")
+            .attr("class", "xLabel")
+            .attr("transform", "translate(0," + chartHeight + ")");
+        svg.append("g")
+
+            .attr("class","yLabel");
+
+        var x = d3.select(".xLabel")
+        var y = d3.select(".yLabel")
+
+        
+
         chartGroup.append("g").attr("transform", `translate(0, ${chartHeight})`).call(xAxis);
         chartGroup.append("g").call(yAxis);
+
+
+        x.append("text").text("Poverty %").attr("transform", `translate(${chartWidth/2},135)`);
+        y.append("text").text("HealthCare %").attr("transform", `translate(0,${chartHeight/2}) rotate(90)`);
 
 
         chartGroup.selectAll("circle-dots")
@@ -49,6 +65,20 @@ d3.csv("assets/data/data.csv")
             .attr("r", 8)
             .attr("fill", "green")
             .attr("opacity", ".5");
+
+        chartGroup.selectAll("circle-dots")
+            .append("e").text(elem => console.log(elem.abbr));
+
+
+        var idk = chartGroup.selectAll("circle-dots")
+            .data(data).enter();
+            
+            
+        idk.append("text").text(elem => elem.abbr)
+            .attr("dx", elem => xLinearScale(elem.poverty))
+            .attr("dy", elem => xLinearScale(elem.healthcare))
+            .attr("fill", "red");
+
 
     });
 
